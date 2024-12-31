@@ -1,0 +1,20 @@
+const { test, expect } = require('@playwright/test')
+
+test.only('Locate multiple wen element on the page', async ({ page }) => {
+    await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+    const logo = await page.getByAltText('company-branding')
+    await expect(logo).toBeVisible()
+    const placeHolder = await page.getByPlaceholder('Username')
+    await expect(placeHolder).toBeVisible()
+    await page.getByPlaceholder('Username').fill('Admin')
+    const password = await page.getByPlaceholder('Password')
+    await expect(placeHolder).toBeVisible()
+    await page.getByPlaceholder('Password').fill('admin123')
+    const logInButton = await page.getByRole('button',{type:'submit'})
+    await expect(logInButton).toBeVisible()
+    await page.getByRole('button',{type:'submit'}).click()
+    const profileName = await page.locator('//p[@class="oxd-userdropdown-name"]').textContent()
+    console.log(profileName)
+    await expect(await page.getByText(profileName)).toBeVisible
+    await page.close()
+})
